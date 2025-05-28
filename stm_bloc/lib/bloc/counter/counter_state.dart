@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 
 class CounterState extends Equatable {
   final int counter;
-  bool color;
+  final bool color;
 
-  CounterState({this.counter = 0, this.color = true});
+  const CounterState({this.counter = 0, this.color = true});
 
   CounterState copyWith({int? counter, bool? color}) {
     return CounterState(
@@ -15,5 +15,5 @@ class CounterState extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [];
+  List<Object?> get props => [counter, color];
 }
