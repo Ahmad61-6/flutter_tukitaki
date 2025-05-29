@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:stm_bloc/bloc/counter/counter_event.dart';
-import 'package:stm_bloc/bloc/counter/counter_state.dart';
 
 import '../../bloc/counter/counter_bloc.dart';
+import '../../bloc/counter/counter_state.dart';
 
 class CounterScreen extends StatefulWidget {
   const CounterScreen({super.key});
@@ -29,6 +29,7 @@ class _CounterScreenState extends State<CounterScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Spacer(flex: 2),
             BlocBuilder<CounterBloc, CounterState>(
               builder: (context, state) {
                 return Container(
@@ -80,6 +81,29 @@ class _CounterScreenState extends State<CounterScreen> {
                 ),
               ],
             ),
+            Spacer(flex: 1),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                height: 50,
+
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.read<CounterBloc>().add(ResetCounter());
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.grey,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: Text('Reset'),
+                ),
+              ),
+            ),
+            Spacer(flex: 1),
           ],
         ),
       ),
