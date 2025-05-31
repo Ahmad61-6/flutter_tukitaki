@@ -8,9 +8,16 @@ part 'image_picker_state.dart';
 
 class ImagePickerBloc extends Bloc<ImagePickerEvent, ImagePickerState> {
   final ImagePickerUtils imagePickerUtils;
-  ImagePickerBloc() : super(ImagePickerState()) {
+  ImagePickerBloc({required this.imagePickerUtils})
+    : super(ImagePickerState()) {
     on<CameraCapture>(_cameraCapture);
   }
 
-  void _cameraCapture(CameraCapture event, Emitter<ImagePickerState> states) {}
+  void _cameraCapture(
+    CameraCapture event,
+    Emitter<ImagePickerState> states,
+  ) async {
+    XFile? file = await imagePickerUtils.cameraCapture();
+    emit(state.copyWith(file: file));
+  }
 }

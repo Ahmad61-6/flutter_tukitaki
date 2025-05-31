@@ -4,6 +4,7 @@ import 'package:stm_bloc/bloc/switch_example/switch_bloc.dart';
 import 'package:stm_bloc/bloc/switch_example/switch_event.dart';
 
 import '../../../bloc/switch_example/switch_state.dart';
+import '../image_picker/image_picker_screen.dart';
 
 class SwitchExampleScreen extends StatefulWidget {
   const SwitchExampleScreen({super.key});
@@ -82,6 +83,38 @@ class _SwitchExampleScreenState extends State<SwitchExampleScreen> {
                     ],
                   );
                 },
+              ),
+              const SizedBox(height: 40),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ImagePickerScreen(),
+                        ),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.pink,
+                      foregroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                    ),
+                    child: Text(
+                      "Image Picker",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
