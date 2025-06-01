@@ -33,7 +33,7 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
             if (state.file == null) {
               return InkWell(
                 onTap: () {
-                  context.read<ImagePickerBloc>().add(CameraCapture());
+                  imagePickerDialogue(context);
                 },
                 child: Container(
                   padding: EdgeInsets.all(8),
@@ -56,11 +56,123 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
                 ),
               );
             } else {
-              return Image.file(File(state.file!.path.toString()));
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    InkWell(
+                      child: Image.file(File(state.file!.path.toString())),
+                    ),
+                    const SizedBox(height: 20),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          imagePickerDialogue(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.pink,
+                          foregroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          "Upload image",
+                          style: TextStyle(fontSize: 20, color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              );
             }
           },
         ),
       ),
+    );
+  }
+
+  Future<dynamic> imagePickerDialogue(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: const Text(
+              "Choose",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            ),
+            content: SizedBox(
+              height: 100,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          context.read<ImagePickerBloc>().add(CameraCapture());
+                          Navigator.pop(context);
+                        },
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.grey,
+                          size: 40,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        "Camera",
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                  Column(
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          context.read<ImagePickerBloc>().add(
+                            GalleryImagePicker(),
+                          );
+                          Navigator.pop(context);
+                        },
+                        child: Icon(Icons.photo, color: Colors.grey, size: 40),
+                      ),
+                      const SizedBox(height: 8),
+                      const Text(
+                        "Gallery",
+                        style: TextStyle(
+                          color: Colors.black54,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  "Cancel",
+                  style: TextStyle(
+                    color: Colors.black54,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ),
+            ],
+          ),
     );
   }
 }
