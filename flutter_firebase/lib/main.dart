@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/firebase_options.dart';
 import 'package:flutter_firebase/view/screens/auth/log_in_screen.dart';
+import 'package:flutter_firebase/view/screens/utility/app_theme_data.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Firebase',
       debugShowCheckedModeBanner: false,
-      home: LogInScreen(),
+      theme: AppThemeData.lightThemeData,
+      home: LoginScreen(),
     );
   }
 }

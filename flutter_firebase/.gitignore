@@ -52,3 +52,5 @@ lib/firebase_options.dart
 firebase.json
 .firebaserc
 
+/android/app/google-services.json
+=
