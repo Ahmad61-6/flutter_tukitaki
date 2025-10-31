@@ -1,4 +1,5 @@
-import 'package:firebase_code/app/modules/auth/screens/login_screen.dart';
+import 'package:firebase_code/app/modules/splash/screens/splash_screen.dart';
+import 'package:firebase_code/controller_binder.dart';
 import 'package:firebase_code/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: ControllerBinder(),
       debugShowCheckedModeBanner: false,
-      home: const LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }
