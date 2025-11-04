@@ -1,0 +1,63 @@
+import 'package:flutter/material.dart';
+import 'package:task_1/features/auth/presentation/screens/form_screen.dart';
+import 'package:task_1/features/auth/presentation/widgets/app_logo.dart';
+
+import '../../../../app/utils/app_version_service.dart';
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+  static const String name = '/';
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _moveToNextScreen();
+  }
+
+  Future<void> _moveToNextScreen() async {
+    await Future.delayed(Duration(seconds: 3), () {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, FormScreen.name);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Spacer(),
+              AppLogo(),
+              const SizedBox(height: 24),
+              Text(
+                'Task',
+                style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+              Spacer(),
+              CircularProgressIndicator(
+                valueColor: AlwaysStoppedAnimation<Color>(
+                  Theme.of(context).colorScheme.primary,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Text(AppVersionService.currentAppVersion),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
