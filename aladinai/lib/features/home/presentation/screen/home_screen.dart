@@ -18,9 +18,14 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Infinite Feed'),
         actions: [
           IconButton(
-            icon: const Icon(Icons.edit_outlined),
+            icon: const Icon(Icons.logout),
             onPressed: () {
-              Get.toNamed(FormScreen.name);
+              controller.logout();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                FormScreen.name,
+                (_) => false,
+              );
             },
           ),
         ],

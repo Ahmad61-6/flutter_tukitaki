@@ -10,11 +10,9 @@ import '../../../../core/data/models/user_info.dart';
 import '../../../../core/service/image_picker_service.dart';
 
 class FormController extends GetxController {
-  // Dependencies
   final SharedPreferences _prefs = Get.find<SharedPreferences>();
   final ImagePickerService _imagePickerService = Get.find<ImagePickerService>();
 
-  // Form State
   final formKey = GlobalKey<FormState>();
   late TextEditingController firstNameController;
   late TextEditingController lastNameController;
@@ -22,7 +20,6 @@ class FormController extends GetxController {
   late TextEditingController phoneController;
   late TextEditingController bioController;
 
-  // UI State
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
@@ -147,7 +144,7 @@ class FormController extends GetxController {
       Get.snackbar(
         'Success',
         'Profile saved successfully!',
-        backgroundColor: Colors.green.withOpacity(0.8),
+        backgroundColor: Colors.green.withValues(alpha: 0.8),
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -161,7 +158,7 @@ class FormController extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to save profile. Please try again.',
-        backgroundColor: Colors.red.withOpacity(0.8),
+        backgroundColor: Colors.red.withValues(alpha: 0.8),
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );

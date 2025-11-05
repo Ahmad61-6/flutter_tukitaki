@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:task_1/features/auth/presentation/screens/form_screen.dart';
 import 'package:task_1/features/auth/presentation/widgets/app_logo.dart';
+import 'package:task_1/features/home/presentation/screen/home_screen.dart';
 
 import '../../../../app/utils/app_version_service.dart';
 
@@ -16,15 +19,22 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _moveToNextScreen();
+    Future.delayed(const Duration(seconds: 2), () {
+      _moveToNextScreen();
+    });
   }
 
   Future<void> _moveToNextScreen() async {
-    await Future.delayed(Duration(seconds: 3), () {
+    final SharedPreferences prefs = Get.find<SharedPreferences>();
+    if (prefs.getString('current_user') != null) {
+      if (mounted) {
+        Navigator.pushReplacementNamed(context, HomeScreen.name);
+      }
+    } else {
       if (mounted) {
         Navigator.pushReplacementNamed(context, FormScreen.name);
       }
-    });
+    }
   }
 
   @override

@@ -143,12 +143,7 @@ class _FormScreenState extends State<FormScreen> {
                         : () async {
                             final success = await controller.submitForm();
                             if (success) {
-                              if (mounted) {
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  HomeScreen.name,
-                                );
-                              }
+                              Get.offAllNamed(HomeScreen.name);
                             }
                           },
                     style: ElevatedButton.styleFrom(

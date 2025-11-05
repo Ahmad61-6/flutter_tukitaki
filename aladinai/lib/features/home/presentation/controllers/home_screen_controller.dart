@@ -4,16 +4,13 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../core/data/models/user_info.dart'; // Adjust this import path
+import '../../../../core/data/models/user_info.dart';
 
 class HomeController extends GetxController {
   final SharedPreferences _prefs = Get.find<SharedPreferences>();
-
   final RxBool isLoading = true.obs;
   final Rx<UserModel?> user = Rx(null);
-
   static const String _userKey = 'current_user';
-
   @override
   void onInit() {
     super.onInit();
@@ -47,5 +44,13 @@ class HomeController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> logout() async {
+    await _prefs.remove(_userKey);
+    debugPrint(
+      '----->[HomeController] User logged out, data removed from SharedPreferences.',
+    );
+    user.value = null;
   }
 }
