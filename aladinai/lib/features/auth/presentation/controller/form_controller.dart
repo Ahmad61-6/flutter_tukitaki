@@ -8,6 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../core/data/models/user_info.dart';
 import '../../../../core/service/image_picker_service.dart';
+import '../../../home/presentation/controllers/home_screen_controller.dart';
+import '../../../home/presentation/screen/home_screen.dart';
 
 class FormController extends GetxController {
   final SharedPreferences _prefs = Get.find<SharedPreferences>();
@@ -31,13 +33,16 @@ class FormController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    _initializeControllers();
+    _loadUserData();
+  }
+
+  void _initializeControllers() {
     firstNameController = TextEditingController();
     lastNameController = TextEditingController();
     emailController = TextEditingController();
     phoneController = TextEditingController();
     bioController = TextEditingController();
-
-    _loadUserData();
   }
 
   @override
@@ -74,27 +79,32 @@ class FormController extends GetxController {
   void _loadUserData() {
     try {
       final userString = _prefs.getString(_userKey);
-      if (userString != null) {
-        final userJson = json.decode(userString) as Map<String, dynamic>;
-        final user = UserModel.fromJson(userJson);
 
-        firstNameController.text = user.firstName;
-        lastNameController.text = user.lastName;
-        emailController.text = user.email;
-        phoneController.text = user.phoneNumber ?? '';
-        bioController.text = user.bio ?? '';
-
-        if (user.profilePictureUrl != null) {
-          final file = File(user.profilePictureUrl!);
-          if (file.existsSync()) {
-            _profileImage = file;
-          }
-        }
+      if (userString == null || userString.isEmpty) {
         if (kDebugMode) {
-          print('[FormController] User data loaded successfully.');
+          print('[FormController] No existing user data found to load.');
         }
-        update();
+        return;
       }
+      final userJson = json.decode(userString) as Map<String, dynamic>;
+      final user = UserModel.fromJson(userJson);
+
+      firstNameController.text = user.firstName;
+      lastNameController.text = user.lastName;
+      emailController.text = user.email;
+      phoneController.text = user.phoneNumber ?? '';
+      bioController.text = user.bio ?? '';
+
+      if (user.profilePictureUrl != null) {
+        final file = File(user.profilePictureUrl!);
+        if (file.existsSync()) {
+          _profileImage = file;
+        }
+      }
+      if (kDebugMode) {
+        print('[FormController] User data loaded successfully.');
+      }
+      update();
     } catch (e) {
       if (kDebugMode) {
         print('[FormController] Failed to load user data: $e');
@@ -141,13 +151,25 @@ class FormController extends GetxController {
         print('[FormController] User data saved to SharedPreferences.');
       }
 
+      try {
+        if (Get.isRegistered<HomeController>()) {
+          Get.find<HomeController>().loadUserData();
+        }
+      } catch (e) {
+        if (kDebugMode) {
+          print('[FormController] Error notifying HomeController: $e');
+        }
+      }
+
       Get.snackbar(
         'Success',
         'Profile saved successfully!',
-        backgroundColor: Colors.green.withValues(alpha: 0.8),
+        backgroundColor: Colors.green.withOpacity(0.8),
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
+
+      Get.offAllNamed(HomeScreen.name);
 
       return true;
     } catch (e) {
@@ -158,7 +180,7 @@ class FormController extends GetxController {
       Get.snackbar(
         'Error',
         'Failed to save profile. Please try again.',
-        backgroundColor: Colors.red.withValues(alpha: 0.8),
+        backgroundColor: Colors.red.withOpacity(0.8),
         colorText: Colors.white,
         snackPosition: SnackPosition.BOTTOM,
       );
@@ -171,6 +193,20 @@ class FormController extends GetxController {
 
   void _setLoading(bool loading) {
     _isLoading = loading;
+    update();
+  }
+
+  void clearFormData() {
+    firstNameController.clear();
+    lastNameController.clear();
+    emailController.clear();
+    phoneController.clear();
+    bioController.clear();
+    _profileImage = null;
+
+    if (kDebugMode) {
+      print('[FormController] Form data cleared.');
+    }
     update();
   }
 }

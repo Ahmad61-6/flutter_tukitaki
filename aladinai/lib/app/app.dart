@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:task_1/app/controller_binder.dart';
 import 'package:task_1/app/controllers/theme_controller.dart';
 import 'package:task_1/app/routes.dart';
-import 'package:task_1/controller_binder.dart';
 import 'package:task_1/features/auth/presentation/screens/splash_screen.dart';
 
 class App extends StatefulWidget {

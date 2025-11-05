@@ -7,7 +7,7 @@ class ControllerBinder extends Bindings {
   @override
   void dependencies() {
     Get.lazyPut(() => ImagePickerService());
-    Get.put(FormController());
-    Get.put(HomeController());
+    Get.lazyPut(() => FormController(), fenix: true);
+    Get.lazyPut(() => HomeController(), fenix: true);
   }
 }
