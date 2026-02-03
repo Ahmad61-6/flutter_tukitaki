@@ -7,7 +7,7 @@ class SignupPageController extends GetxController {
   final UserSingUp _userSingUp;
 
   SignupPageController({required UserSingUp userSingUp})
-    : _userSingUp = userSingUp;
+      : _userSingUp = userSingUp;
 
   final RxBool _obscureText1 = true.obs;
 
@@ -28,5 +28,6 @@ class SignupPageController extends GetxController {
   void resetVisibility() {
     _obscureText1.value = true;
     _obscureText2.value = true;
+    
   }
 }
