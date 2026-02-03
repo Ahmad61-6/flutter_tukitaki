@@ -9,5 +9,7 @@ class ControllerBinder extends Bindings {
     // TODO: implement dependencies
     // Get.put(LoginScreenController());
     // Get.put(SignupPageController());
+
+    Get.put(SignupPageController(userSingUp: Get.find()));
   }
 }

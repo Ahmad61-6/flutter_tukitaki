@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:clean_arch_blog_app/core/helpers/app_helper.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/usecases/user_sing_up.dart';
 import 'package:clean_arch_blog_app/features/auth/presentation/pages/signup_page.dart';
 import 'package:get/get.dart';
@@ -7,7 +10,9 @@ class SignupPageController extends GetxController {
   final UserSingUp _userSingUp;
 
   SignupPageController({required UserSingUp userSingUp})
-      : _userSingUp = userSingUp;
+    : _userSingUp = userSingUp;
+
+  final RxBool isLoading = false.obs;
 
   final RxBool _obscureText1 = true.obs;
 
@@ -16,6 +21,40 @@ class SignupPageController extends GetxController {
   final RxBool _obscureText2 = true.obs;
 
   RxBool get obscureText2 => _obscureText2;
+
+  final Rx<File?> _selectedImage = Rx<File?>(null);
+
+  Rx<File?> get selectedImage => _selectedImage;
+
+  Future<void> signUp(
+    String name,
+    String email,
+    String password,
+    File? image,
+  ) async {
+    isLoading.value = true;
+    final params = SignUpParams(
+      name: name,
+      email: email,
+      password: password,
+      image: image,
+    );
+    final result = await _userSingUp.call(params);
+    isLoading.value = false;
+
+    result.fold(
+      (failure) {
+        AppHelperFunctions.showSnackBar(
+          "Sign Up failed",
+          failure.message,
+          true,
+        );
+      },
+      (uid) {
+        AppHelperFunctions.showSnackBar("Sign Up successful", uid, false);
+      },
+    );
+  }
 
   void changeVisibility(int fieldNo) {
     if (fieldNo == 1) {
@@ -28,6 +67,5 @@ class SignupPageController extends GetxController {
   void resetVisibility() {
     _obscureText1.value = true;
     _obscureText2.value = true;
-    
   }
 }
