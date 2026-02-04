@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:clean_arch_blog_app/core/helpers/app_helper.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/usecases/user_sing_up.dart';
-import 'package:clean_arch_blog_app/features/auth/presentation/pages/signup_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SignupPageController extends GetxController {
   final UserSingUp _userSingUp;
@@ -26,7 +26,22 @@ class SignupPageController extends GetxController {
 
   Rx<File?> get selectedImage => _selectedImage;
 
-  Future<void> signUp(
+  Future<void> pickImage() async {
+    try {
+      final XFile? pickedFile = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+      );
+
+      if (pickedFile != null) {
+        _selectedImage.value = File(pickedFile.path);
+      }
+    } catch (e) {
+      Get.snackbar('Error', 'Failed to pick image: $e');
+    }
+  }
+
+  Future<bool> signUp(
     String name,
     String email,
     String password,
@@ -42,16 +57,19 @@ class SignupPageController extends GetxController {
     final result = await _userSingUp.call(params);
     isLoading.value = false;
 
-    result.fold(
+    return result.fold(
       (failure) {
         AppHelperFunctions.showSnackBar(
           "Sign Up failed",
           failure.message,
           true,
         );
+        debugPrint("xxxxxxx ${failure.message} xxxxxxx");
+        return false;
       },
-      (uid) {
-        AppHelperFunctions.showSnackBar("Sign Up successful", uid, false);
+      (user) {
+        AppHelperFunctions.showSnackBar("Sign Up successful", user.name, false);
+        return true;
       },
     );
   }

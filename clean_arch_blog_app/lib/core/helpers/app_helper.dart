@@ -8,6 +8,7 @@ class AppHelperFunctions {
   AppHelperFunctions._();
 
   static void showSnackBar(String title, String message, bool isFailure) {
+    Get.closeCurrentSnackbar();
     Get.snackbar(
       title,
       message,

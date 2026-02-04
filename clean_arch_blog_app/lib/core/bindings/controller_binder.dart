@@ -11,5 +11,6 @@ class ControllerBinder extends Bindings {
     // Get.put(SignupPageController());
 
     Get.put(SignupPageController(userSingUp: Get.find()));
+    Get.put(LoginScreenController(userLogin: Get.find()));
   }
 }

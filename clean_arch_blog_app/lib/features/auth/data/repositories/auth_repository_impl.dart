@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:clean_arch_blog_app/core/error/exceptions.dart';
 import 'package:clean_arch_blog_app/core/error/failure.dart';
+import 'package:clean_arch_blog_app/features/auth/data/models/user_model.dart';
+import 'package:clean_arch_blog_app/features/auth/domain/entities/user.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 
 import '../data_sources/auth_remote_data_source.dart';
@@ -14,29 +17,39 @@ class AuthRepositoryImpl implements AuthRepository {
   const AuthRepositoryImpl(this._authRemoteDataSource);
 
   @override
-  Future<Either<Failure, String>> loginWithEmailPassword({
+  Future<Either<Failure, UserEntity>> loginWithEmailPassword({
     required String email,
     required String password,
-  }) {
-    // TODO: implement loginWithEmailPassword
-    throw UnimplementedError();
+  }) async {
+    try {
+      final user = await _authRemoteDataSource.loginWithEmailPassword(
+        email: email,
+        password: password,
+      );
+      return right(user);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
   }
 
   @override
-  Future<Either<Failure, String>> signUpWithEmailPassword({
+  Future<Either<Failure, UserEntity>> signUpWithEmailPassword({
     required String name,
     required String email,
     required String password,
     File? image,
   }) async {
     try {
-      final userId = await _authRemoteDataSource.signUpWithEmailPassword(
+      final user = await _authRemoteDataSource.signUpWithEmailPassword(
         name: name,
         email: email,
         password: password,
         image: image,
       );
-      return right(userId);
+      debugPrint(
+        "------User Information------\n-->${user.name}\n-->${user.email}\n-->${user.imageUrl}",
+      );
+      return right(user);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }
