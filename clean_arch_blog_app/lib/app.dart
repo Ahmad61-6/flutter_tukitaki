@@ -1,9 +1,7 @@
 import 'package:clean_arch_blog_app/core/bindings/controller_binder.dart';
 import 'package:clean_arch_blog_app/core/constants/app_sizer.dart';
-import 'package:clean_arch_blog_app/features/auth/presentation/pages/login_page.dart';
 import 'package:clean_arch_blog_app/routes/app_routes.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' as foundation;
 
@@ -30,6 +28,7 @@ class BlogApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           initialBinding: ControllerBinder(),
           getPages: AppRoutes.routes,
+          initialRoute: AppRoutes.init,
           defaultTransition: PlatformUtils.isIOS
               ? Transition.cupertino
               : Transition.rightToLeft,
@@ -37,7 +36,6 @@ class BlogApp extends StatelessWidget {
               ? CupertinoTheme(data: CupertinoThemeData(), child: child!)
               : child!,
           transitionDuration: const Duration(milliseconds: 100),
-          home: const LoginPage(),
         );
       },
     );

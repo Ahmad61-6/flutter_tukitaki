@@ -3,6 +3,7 @@ import 'package:clean_arch_blog_app/core/constants/app_sizer.dart';
 import 'package:clean_arch_blog_app/core/utils/validators/app_validators.dart';
 import 'package:clean_arch_blog_app/core/widgets/custom_app_bar.dart';
 import 'package:clean_arch_blog_app/features/auth/presentation/widgets/auth_field.dart';
+import 'package:clean_arch_blog_app/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -134,6 +135,7 @@ class _SignupPageState extends State<SignupPage> {
                               );
                               if (result) {
                                 _clearForm();
+                                Get.offAllNamed(AppRoutes.blogPage);
                               }
                             }
                           },

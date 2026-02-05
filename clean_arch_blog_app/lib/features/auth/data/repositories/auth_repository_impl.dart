@@ -2,10 +2,8 @@ import 'dart:io';
 
 import 'package:clean_arch_blog_app/core/error/exceptions.dart';
 import 'package:clean_arch_blog_app/core/error/failure.dart';
-import 'package:clean_arch_blog_app/features/auth/data/models/user_model.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/entities/user.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/repositories/auth_repository.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -56,12 +54,39 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  // TODO: implement authStateChanges
-  Stream<User?> get authStateChanges => throw UnimplementedError();
+  Future<Either<Failure, void>> signOut() async {
+    try {
+      await _authRemoteDataSource.signOut();
+      return right(null);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 
   @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<Either<Failure, UserEntity>> getCurrentUserData() async {
+    try {
+      final user = await _authRemoteDataSource.getCurrentUserData();
+      return right(user);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Stream<Either<Failure, UserEntity>> get authStateChanges {
+    return _authRemoteDataSource.authStateChanges.map((user) {
+      if (user == null) {
+        return left(Failure('User is logged out'));
+      }
+      return right(
+        UserEntity(
+          uId: user.uid,
+          name: user.displayName ?? '',
+          email: user.email ?? '',
+          imageUrl: user.photoURL ?? '',
+        ),
+      );
+    });
   }
 }

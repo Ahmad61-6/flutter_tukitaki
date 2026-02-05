@@ -24,6 +24,8 @@ abstract interface class AuthRemoteDataSource {
   Stream<User?> get authStateChanges;
 
   Future<void> signOut();
+
+  Future<UserModel> getCurrentUserData();
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -52,9 +54,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
       debugPrint("------->> User Login Successful <<-------");
       final uid = response.user!.uid;
-      await _firebaseFirestore.collection('users').doc(uid).update({
-        'last_login': FieldValue.serverTimestamp(),
-      });
+      await _firebaseFirestore
+          .collection('users')
+          .doc(uid)
+          .collection('login_logs')
+          .add({
+            'timestamp': FieldValue.serverTimestamp(),
+            'method': 'email_password',
+          });
 
       final docSnap = await _firebaseFirestore
           .collection('users')
@@ -154,9 +161,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
   @override
-  Future<void> signOut() {
-    // TODO: implement signOut
-    throw UnimplementedError();
+  Future<void> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 
   Future<String> _uploadImage({
@@ -174,6 +184,27 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       return snapshot.ref.getDownloadURL();
     } catch (e) {
       throw ServerException('Failed to upload profile image.');
+    }
+  }
+
+  @override
+  Future<UserModel> getCurrentUserData() async {
+    try {
+      final currentUser = _firebaseAuth.currentUser;
+      if (currentUser == null) {
+        throw ServerException('User not logged in');
+      }
+      final uid = currentUser.uid;
+      final documentSnapshot = await _firebaseFirestore
+          .collection('users')
+          .doc(uid)
+          .get();
+      if (!documentSnapshot.exists) {
+        throw ServerException('User profile not found');
+      }
+      return UserModel.fromFirestore(documentSnapshot, null);
+    } catch (e) {
+      throw ServerException(e.toString());
     }
   }
 }

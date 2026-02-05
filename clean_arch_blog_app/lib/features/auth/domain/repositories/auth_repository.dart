@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:clean_arch_blog_app/core/error/failure.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/entities/user.dart';
 
@@ -18,7 +17,9 @@ abstract interface class AuthRepository {
     required String password,
   });
 
-  Stream<User?> get authStateChanges;
+  Stream<Either<Failure, UserEntity>> get authStateChanges;
 
-  Future<void> signOut();
+  Future<Either<Failure, void>> signOut();
+
+  Future<Either<Failure, UserEntity>> getCurrentUserData();
 }
