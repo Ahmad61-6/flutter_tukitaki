@@ -12,6 +12,7 @@ class AppTheme {
   static final darkThemeMode = ThemeData.dark(useMaterial3: true).copyWith(
     scaffoldBackgroundColor: AppColors.backgroundColor,
     inputDecorationTheme: InputDecorationThemeData(
+      hintStyle: TextStyle(color: AppColors.greyColor, fontSize: 14.sp),
       contentPadding: const EdgeInsets.all(27),
       enabledBorder: _border(),
       focusedBorder: _border(AppColors.gradient2),
