@@ -4,6 +4,7 @@ import 'package:clean_arch_blog_app/core/error/exceptions.dart';
 import 'package:clean_arch_blog_app/features/blog/data/models/blog_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/widgets.dart';
 
 abstract interface class BlogRemoteDataSources {
   Future<BlogModel> uploadBlog(BlogModel blog);
@@ -20,10 +21,14 @@ class BlogRemoteDataSourcesImpl implements BlogRemoteDataSources {
   @override
   Future<BlogModel> uploadBlog(BlogModel blog) async {
     try {
+      debugPrint(
+        "----->> Requesting to the Firebase Firestore to upload blog<<-----",
+      );
       await _firebaseFirestore
           .collection('blogs')
           .doc(blog.blogId)
           .set(blog.toJson());
+      debugPrint("----->> Request Successful <<-----");
       return BlogModel.fromJson(blog.toJson());
     } on ServerException catch (e) {
       throw ServerException(e.message);
@@ -36,11 +41,15 @@ class BlogRemoteDataSourcesImpl implements BlogRemoteDataSources {
     required String blogId,
   }) async {
     try {
+      debugPrint(
+        "----->> Requesting to the Firebase storage to upload image<<-----",
+      );
       final ref = _firebaseStorage.ref().child('uploads/blogs/$blogId');
 
       final uploadTask = await ref.putFile(image);
 
       final url = await uploadTask.ref.getDownloadURL();
+      debugPrint("----->> Request Successful <<-----\nImage URL: $url<<-----");
       return url;
     } catch (e) {
       throw ServerException(e.toString());

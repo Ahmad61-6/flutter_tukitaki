@@ -15,9 +15,13 @@ class ControllerBinder extends Bindings {
 
     Get.put(SignupPageController(userSingUp: Get.find()));
     Get.put(LoginScreenController(userLogin: Get.find()));
-    Get.put(AppUserController());
-    Get.put(AppUserController());
+    Get.put(AppUserController(), permanent: true);
     Get.put(SplashScreenController(Get.find(), Get.find()));
-    Get.put(AddNewBlogPageController());
+    Get.put(
+      AddNewBlogPageController(
+        uploadBlog: Get.find(),
+        appUserController: Get.find(),
+      ),
+    );
   }
 }

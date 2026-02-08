@@ -163,7 +163,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> signOut() async {
     try {
+      debugPrint("------->> Signing out user <<-------");
       await _firebaseAuth.signOut();
+      debugPrint("------->> User signed out successfully <<-------");
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -174,6 +176,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     required String userId,
   }) async {
     try {
+      debugPrint(
+        "------->> Uploading profile image to Firebase Storage <<-------",
+      );
       final Reference ref = _firebaseStorage
           .ref()
           .child('users')
@@ -181,6 +186,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
           .child('profile_pic');
       final UploadTask uploadTask = ref.putFile(image);
       final TaskSnapshot snapshot = await uploadTask;
+      debugPrint("------->> Profile image uploaded successfully <<-------");
       return snapshot.ref.getDownloadURL();
     } catch (e) {
       throw ServerException('Failed to upload profile image.');
@@ -190,11 +196,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<UserModel> getCurrentUserData() async {
     try {
+      debugPrint(
+        "------->> Fetching current user data from Firebase Firestore <<-------",
+      );
       final currentUser = _firebaseAuth.currentUser;
       if (currentUser == null) {
         throw ServerException('User not logged in');
       }
       final uid = currentUser.uid;
+
       final documentSnapshot = await _firebaseFirestore
           .collection('users')
           .doc(uid)
@@ -202,6 +212,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (!documentSnapshot.exists) {
         throw ServerException('User profile not found');
       }
+      debugPrint("------->> Current user data fetched successfully <<-------");
       return UserModel.fromFirestore(documentSnapshot, null);
     } catch (e) {
       throw ServerException(e.toString());
