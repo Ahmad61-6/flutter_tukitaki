@@ -59,7 +59,7 @@ class _SignupPageState extends State<SignupPage> {
                       ),
                       SizedBox(height: 10.h),
                       GestureDetector(
-                        onTap: () => signupController.pickImage(),
+                        onTap: () => signupController.selectImage(),
                         child: Obx(() {
                           final file = signupController.selectedImage.value;
                           return CircleAvatar(

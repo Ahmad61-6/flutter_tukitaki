@@ -26,18 +26,19 @@ class SignupPageController extends GetxController {
 
   Rx<File?> get selectedImage => _selectedImage;
 
-  Future<void> pickImage() async {
+  Future<void> selectImage() async {
     try {
-      final XFile? pickedFile = await ImagePicker().pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 50,
-      );
-
-      if (pickedFile != null) {
-        _selectedImage.value = File(pickedFile.path);
+      final pickedImage = await AppHelperFunctions.pickImage();
+      if (pickedImage != null) {
+        _selectedImage.value = pickedImage;
       }
     } catch (e) {
-      Get.snackbar('Error', 'Failed to pick image: $e');
+      debugPrint("xxxxxxx ${e.toString()} xxxxxxx");
+      AppHelperFunctions.showSnackBar(
+        "Image selection failed",
+        e.toString(),
+        true,
+      );
     }
   }
 

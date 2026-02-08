@@ -3,6 +3,7 @@ import 'package:clean_arch_blog_app/core/utils/validators/app_validators.dart';
 import 'package:clean_arch_blog_app/core/widgets/custom_app_bar.dart';
 import 'package:clean_arch_blog_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:clean_arch_blog_app/features/blog/presentation/controllers/add_new_blog_page_controller.dart';
+import 'package:clean_arch_blog_app/features/blog/presentation/widgets/blog_editor.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,43 +40,95 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
           children: [
             Padding(
               padding: EdgeInsets.all(12.0.w),
-              child: DottedBorder(
-                options: RoundedRectDottedBorderOptions(
-                  dashPattern: [10, 4],
-                  radius: Radius.circular(10),
-                  strokeWidth: 1,
-                  strokeCap: StrokeCap.round,
-                  padding: EdgeInsets.all(16),
-                  color: AppColors.greyColor,
-                ),
-                child: SizedBox(
-                  height: 150.h,
-                  width: double.infinity,
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Column(
-                        mainAxisAlignment: .center,
-                        children: [
-                          Icon(
-                            Icons.folder_outlined,
-                            size: 35.r,
-                            color: AppColors.whiteColor,
-                          ),
-                          SizedBox(height: 5.h),
-                          Text(
-                            'Select your image',
-                            style: TextStyle(
-                              fontSize: 15.sp,
-                              color: AppColors.greyColor,
+              child: Obx(() {
+                final isImageSelected =
+                    pageController.selectedImage.value != null;
+
+                if (isImageSelected) {
+                  return Stack(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          pageController.selectImage();
+                        },
+                        child: SizedBox(
+                          height: 150.h,
+                          width: double.infinity,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.file(
+                              pageController.selectedImage.value!,
+                              fit: BoxFit.cover,
                             ),
                           ),
-                        ],
+                        ),
+                      ),
+
+                      Positioned(
+                        top: 5.h,
+                        right: 5.w,
+                        child: GestureDetector(
+                          onTap: () {
+                            pageController.removeImage();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(4.r),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withValues(alpha: 0.5),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.white,
+                              size: 20.r,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return GestureDetector(
+                    onTap: () {
+                      pageController.selectImage();
+                    },
+                    child: DottedBorder(
+                      options: RoundedRectDottedBorderOptions(
+                        dashPattern: [10, 4],
+                        radius: Radius.circular(10),
+                        strokeWidth: 1,
+                        strokeCap: StrokeCap.round,
+                        padding: EdgeInsets.all(16),
+                        color: AppColors.greyColor,
+                      ),
+                      child: SizedBox(
+                        height: 150.h,
+                        width: double.infinity,
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.folder_outlined,
+                                size: 35.r,
+                                color: AppColors.whiteColor,
+                              ),
+                              SizedBox(height: 5.h),
+                              Text(
+                                'Select your image',
+                                style: TextStyle(
+                                  fontSize: 15.sp,
+                                  color: AppColors.greyColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
+                  );
+                }
+              }),
             ),
 
             SizedBox(height: 10.h),
@@ -88,57 +141,31 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
                       'Business',
                       'Programming',
                       'Entertainment',
-                    ].asMap().entries.map((entry) {
-                      final int index = entry.key;
-                      final String category = entry.value;
-
-                      // ... inside your map loop ...
+                    ].map((entry) {
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
                         child: Obx(() {
-                          final bool isSelected =
-                              pageController.selectedCategoryIndex.value ==
-                              index;
-
-                          return ChoiceChip(
-                            label: Text(category),
-                            selected: isSelected,
-
-                            // 1. Logic for Background Color
-                            selectedColor: AppColors.gradient1,
-                            backgroundColor: AppColors.transparentColor,
-
-                            // 2. Logic for Border (Side)
-                            // Material 3 ChoiceChip usually handles border automatically,
-                            // but to match your exact design:
-                            side: isSelected
-                                ? BorderSide.none
-                                : const BorderSide(
-                                    color: AppColors.borderColor,
-                                  ),
-
-                            // 3. Logic for Text Color
-                            labelStyle: TextStyle(
-                              color: isSelected
-                                  ? AppColors.whiteColor
-                                  : AppColors.greyColor,
-                              fontSize: 12.sp,
-                            ),
-
-                            // 4. Handle Tap
-                            onSelected: (bool selected) {
-                              if (selected) {
-                                pageController.changeBlogCategory(index);
-                              }
+                          return GestureDetector(
+                            onTap: () {
+                              pageController.selectedCategoryItems(entry);
                             },
-
-                            // Remove standard padding if you want it compact
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 5.w,
-                              vertical: 5.h,
+                            child: Chip(
+                              label: Text(entry),
+                              color:
+                                  pageController.selectedCategories.contains(
+                                    entry,
+                                  )
+                                  ? WidgetStatePropertyAll(AppColors.gradient1)
+                                  : WidgetStatePropertyAll(
+                                      AppColors.backgroundColor,
+                                    ),
+                              side:
+                                  pageController.selectedCategories.contains(
+                                    entry,
+                                  )
+                                  ? null
+                                  : BorderSide(color: AppColors.borderColor),
                             ),
-                            showCheckmark:
-                                false, // Hides the default check icon
                           );
                         }),
                       );
@@ -146,24 +173,24 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
               ),
             ),
             SizedBox(height: 10.h),
-            Padding(
-              padding: EdgeInsets.all(12.r),
-              child: Column(
-                children: [
-                  AuthField(
-                    hintText: 'Blog Title',
-                    controller: blogTitleTEController,
-                    validator: AppValidator.validateName,
-                    obscureText: false,
-                  ),
-                  SizedBox(height: 10.h),
-                  AuthField(
-                    hintText: 'Blog Content',
-                    controller: blogContentTEController,
-                    validator: AppValidator.validateName,
-                    obscureText: false,
-                  ),
-                ],
+            SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(12.r),
+                child: Column(
+                  children: [
+                    AuthField(
+                      hintText: 'Blog Title',
+                      controller: blogTitleTEController,
+                      validator: AppValidator.validateName,
+                      obscureText: false,
+                    ),
+                    SizedBox(height: 10.h),
+                    BlogEditor(
+                      hintText: 'Blog Content',
+                      teContoller: blogContentTEController,
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

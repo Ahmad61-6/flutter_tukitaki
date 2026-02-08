@@ -1,6 +1,8 @@
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AppHelperFunctions {
   AppHelperFunctions._();
@@ -14,5 +16,20 @@ class AppHelperFunctions {
       colorText: Colors.white,
       snackPosition: SnackPosition.BOTTOM,
     );
+  }
+
+  static Future<File?> pickImage() async {
+    try {
+      final XFile? xFile = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        imageQuality: 50,
+      );
+      if (xFile != null) {
+        return File(xFile.path);
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
   }
 }
