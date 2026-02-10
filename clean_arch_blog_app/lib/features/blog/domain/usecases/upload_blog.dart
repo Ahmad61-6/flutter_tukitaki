@@ -20,12 +20,16 @@ class UploadBlog implements UseCases<Blog, UploadBlogParams> {
       content: params.content,
       posterId: params.posterId,
       categories: params.categories,
+      posterName: params.posterName,
+      posterAvtUrl: params.posterAvtUrl,
     );
   }
 }
 
 class UploadBlogParams {
   final String posterId;
+  final String posterName;
+  final String posterAvtUrl;
   final String title;
   final String content;
   final File image;
@@ -37,5 +41,7 @@ class UploadBlogParams {
     required this.content,
     required this.image,
     required this.categories,
+    required this.posterName,
+    required this.posterAvtUrl,
   });
 }

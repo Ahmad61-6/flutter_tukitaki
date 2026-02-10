@@ -11,6 +11,8 @@ class BlogModel extends Blog {
     required super.categories,
     required super.createdAt,
     required super.updatedAt,
+    super.posterName,
+    super.posterAvatarUrl,
   });
 
   factory BlogModel.fromJson(Map<String, dynamic> map) {
@@ -24,6 +26,8 @@ class BlogModel extends Blog {
 
       createdAt: (map['created_at'] as Timestamp).toDate(),
       updatedAt: (map['updated_at'] as Timestamp).toDate(),
+      posterName: null,
+      posterAvatarUrl: null,
     );
   }
 
@@ -32,17 +36,16 @@ class BlogModel extends Blog {
     return <String, dynamic>{
       'blog_id': blogId,
       'poster_id': posterId,
+      'poster': {'name': posterName, 'avatar': posterAvatarUrl},
       'title': title,
       'blog_content': blogContent,
       'image_url': imageUrl,
       'categories': categories,
-      // Convert Dart DateTime to Firestore Timestamp
       'created_at': Timestamp.fromDate(createdAt),
       'updated_at': Timestamp.fromDate(updatedAt),
     };
   }
 
-  // Optional: CopyWith is very useful for updating state locally
   BlogModel copyWith({
     String? blogId,
     String? posterId,
@@ -52,6 +55,8 @@ class BlogModel extends Blog {
     List<String>? categories,
     DateTime? createdAt,
     DateTime? updatedAt,
+    String? posterName,
+    String? posterAvatarUrl,
   }) {
     return BlogModel(
       blogId: blogId ?? this.blogId,
@@ -62,6 +67,8 @@ class BlogModel extends Blog {
       categories: categories ?? this.categories,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      posterName: posterName ?? this.posterName,
+      posterAvatarUrl: posterAvatarUrl ?? this.posterAvatarUrl,
     );
   }
 }

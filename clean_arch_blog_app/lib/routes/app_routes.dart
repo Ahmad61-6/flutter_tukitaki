@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../features/auth/presentation/pages/signup_page.dart';
 import '../features/blog/presentation/pages/add_new_blog_page.dart';
-import '../features/blog/presentation/pages/home_page.dart';
 
 class AppRoutes {
   static String loginPage = "/loginPage";
@@ -19,7 +18,7 @@ class AppRoutes {
   static List<GetPage> routes = [
     GetPage(name: loginPage, page: () => const LoginPage()),
     GetPage(name: signupPage, page: () => const SignupPage()),
-    GetPage(name: homePage, page: () => const HomePage()),
+
     GetPage(name: init, page: () => const SplashPage()),
 
     GetPage(name: blogPage, page: () => const BlogPage()),

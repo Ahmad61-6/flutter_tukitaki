@@ -88,6 +88,8 @@ class AddNewBlogPageController extends GetxController {
 
     _isLoading.value = true;
     final String posterId = _appUserController.user.value!.uId;
+    final String posterName = _appUserController.user.value!.name;
+    final String posterAvtUrl = _appUserController.user.value!.imageUrl ?? '';
 
     final params = UploadBlogParams(
       posterId: posterId,
@@ -95,6 +97,8 @@ class AddNewBlogPageController extends GetxController {
       content: content,
       image: _selectedImage.value!,
       categories: _selectedCategories,
+      posterName: posterName,
+      posterAvtUrl: posterAvtUrl,
     );
 
     final result = await _uploadBlog.call(params);

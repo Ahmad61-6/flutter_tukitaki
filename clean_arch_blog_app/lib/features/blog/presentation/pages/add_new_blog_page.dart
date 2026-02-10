@@ -5,6 +5,7 @@ import 'package:clean_arch_blog_app/core/widgets/custom_app_bar.dart';
 import 'package:clean_arch_blog_app/features/auth/presentation/widgets/auth_field.dart';
 import 'package:clean_arch_blog_app/features/blog/presentation/controllers/add_new_blog_page_controller.dart';
 import 'package:clean_arch_blog_app/features/blog/presentation/widgets/blog_editor.dart';
+import 'package:clean_arch_blog_app/routes/app_routes.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -41,7 +42,7 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
       if (isSuccess && mounted) {
         blogTitleTEController.clear();
         blogContentTEController.clear();
-        Get.back();
+        Get.offAllNamed(AppRoutes.blogPage);
       }
     }
   }

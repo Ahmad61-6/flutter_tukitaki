@@ -4,7 +4,6 @@ import 'package:clean_arch_blog_app/core/helpers/app_helper.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/usecases/user_sing_up.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 
 class SignupPageController extends GetxController {
   final UserSingUp _userSingUp;

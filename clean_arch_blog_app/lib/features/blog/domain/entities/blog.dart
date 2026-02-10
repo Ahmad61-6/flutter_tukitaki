@@ -7,6 +7,8 @@ class Blog {
   final List<String> categories;
   final DateTime createdAt;
   final DateTime updatedAt;
+  final String? posterName;
+  final String? posterAvatarUrl;
 
   Blog({
     required this.blogId,
@@ -17,5 +19,7 @@ class Blog {
     required this.categories,
     required this.createdAt,
     required this.updatedAt,
+    this.posterName,
+    this.posterAvatarUrl,
   });
 }

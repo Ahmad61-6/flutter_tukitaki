@@ -8,6 +8,7 @@ import 'package:clean_arch_blog_app/features/auth/domain/usecases/user_sing_up.d
 import 'package:clean_arch_blog_app/features/blog/data/data_source/blog_remote_data_sources.dart';
 import 'package:clean_arch_blog_app/features/blog/data/repositories/blog_repository_impl.dart';
 import 'package:clean_arch_blog_app/features/blog/domain/repositories/blog_repository.dart';
+import 'package:clean_arch_blog_app/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:clean_arch_blog_app/features/blog/domain/usecases/upload_blog.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -33,4 +34,5 @@ Future<void> initDependencies() async {
   Get.lazyPut(() => GetCurrentUser(Get.find()));
   Get.lazyPut(() => GetAuthState(Get.find()));
   Get.lazyPut(() => UploadBlog(Get.find()));
+  Get.lazyPut(() => GetAllBlogs(Get.find()));
 }

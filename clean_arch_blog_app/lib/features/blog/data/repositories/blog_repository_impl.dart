@@ -20,15 +20,20 @@ class BlogRepositoryImpl implements BlogRepository {
     required String title,
     required String content,
     required String posterId,
+    required String posterName,
+    required String posterAvtUrl,
     required List<String> categories,
   }) async {
     try {
       BlogModel blogModel = BlogModel(
         blogId: const Uuid().v1(),
         posterId: posterId,
+
         title: title,
         blogContent: content,
         imageUrl: '',
+        posterName: posterName,
+        posterAvatarUrl: posterAvtUrl,
         categories: categories,
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
@@ -40,6 +45,16 @@ class BlogRepositoryImpl implements BlogRepository {
       blogModel = blogModel.copyWith(imageUrl: image);
       final blog = await _blogRemoteDataSources.uploadBlog(blogModel);
       return right(blog);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<Blog>>> getAllBlogs() async {
+    try {
+      final blogs = await _blogRemoteDataSources.getAllBlogs();
+      return right(blogs);
     } on ServerException catch (e) {
       return left(Failure(e.message));
     }
