@@ -19,13 +19,6 @@ class _BlogPageState extends State<BlogPage> {
   final BlogPageController controller = Get.find<BlogPageController>();
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    Get.find<BlogPageController>().getAllBlogs();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
@@ -55,7 +48,14 @@ class _BlogPageState extends State<BlogPage> {
 
                   itemBuilder: (context, index) {
                     final blog = controller.blogs[index];
-                    return BlogCard(blog: blog, color: AppColors.gradient1);
+                    return BlogCard(
+                      blog: blog,
+                      color: index % 3 == 0
+                          ? AppColors.gradient1
+                          : index % 3 == 1
+                          ? AppColors.gradient2
+                          : AppColors.gradient3,
+                    );
                   },
                 ),
               ),

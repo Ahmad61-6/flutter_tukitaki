@@ -11,6 +11,12 @@ class BlogPageController extends GetxController {
   BlogPageController({required GetAllBlogs getAllBlogs})
     : _getAllBlogs = getAllBlogs;
 
+  @override
+  void onInit() {
+    super.onInit();
+    getAllBlogs();
+  }
+
   final RxList<Blog> _blogs = <Blog>[].obs;
 
   RxList<Blog> get blogs => _blogs;

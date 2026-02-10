@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class AppHelperFunctions {
   AppHelperFunctions._();
@@ -31,5 +32,15 @@ class AppHelperFunctions {
     } catch (e) {
       return null;
     }
+  }
+
+  static int calculateReadingTime(String content) {
+    final wordCount = content.split(RegExp(r'\s+')).length;
+    final readingTime = (wordCount / 225).ceil();
+    return readingTime;
+  }
+
+  static String formatDateTime(DateTime date) {
+    return DateFormat('d MMM, yyyy - h:mm a').format(date);
   }
 }

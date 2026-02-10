@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../core/constants/app_sizer.dart';
+import '../controllers/blog_page_controller.dart';
 
 class AddNewBlogPage extends StatefulWidget {
   const AddNewBlogPage({super.key});
@@ -40,6 +41,9 @@ class _AddNewBlogPageState extends State<AddNewBlogPage> {
       );
 
       if (isSuccess && mounted) {
+        if (Get.isRegistered<BlogPageController>()) {
+          Get.find<BlogPageController>().getAllBlogs();
+        }
         blogTitleTEController.clear();
         blogContentTEController.clear();
         Get.offAllNamed(AppRoutes.blogPage);
