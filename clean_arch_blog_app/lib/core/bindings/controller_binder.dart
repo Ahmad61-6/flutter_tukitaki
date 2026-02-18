@@ -1,4 +1,5 @@
 import 'package:clean_arch_blog_app/features/auth/presentation/controllers/app_user_controller.dart';
+import 'package:clean_arch_blog_app/features/auth/presentation/controllers/sign_out_controller.dart';
 import 'package:clean_arch_blog_app/features/auth/presentation/controllers/signup_page_controller.dart';
 import 'package:clean_arch_blog_app/features/auth/presentation/controllers/splash_page_controller.dart';
 import 'package:clean_arch_blog_app/features/blog/presentation/controllers/add_new_blog_page_controller.dart';
@@ -17,6 +18,7 @@ class ControllerBinder extends Bindings {
     Get.put(SignupPageController(userSingUp: Get.find()));
     Get.put(LoginScreenController(userLogin: Get.find()));
     Get.put(AppUserController(), permanent: true);
+    Get.put(SignOutController(userSignOut: Get.find()));
     Get.put(SplashScreenController(Get.find(), Get.find()));
     Get.put(
       AddNewBlogPageController(

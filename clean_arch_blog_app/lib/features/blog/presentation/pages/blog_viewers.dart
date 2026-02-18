@@ -20,71 +20,73 @@ class BlogViewers extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(12.0),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  blog.title,
-                  style: TextStyle(
-                    fontSize: 24.sp,
-                    fontWeight: FontWeight.bold,
+          child: Scrollbar(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    blog.title,
+                    style: TextStyle(
+                      fontSize: 24.sp,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 30.h),
-                Text(
-                  'By ${blog.posterName ?? "Unknown"}',
-                  style: TextStyle(fontSize: 14.sp),
-                ),
-                SizedBox(height: 5.h),
-                Text(
-                  "${AppHelperFunctions.formatDateTime(blog.updatedAt)} . ${AppHelperFunctions.calculateReadingTime(blog.blogContent)} min read",
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: AppColors.greyColor.withValues(alpha: 0.8),
+                  SizedBox(height: 30.h),
+                  Text(
+                    'By ${blog.posterName ?? "Unknown"}',
+                    style: TextStyle(fontSize: 14.sp),
                   ),
-                ),
-                SizedBox(height: 20.h),
+                  SizedBox(height: 5.h),
+                  Text(
+                    "${AppHelperFunctions.formatDateTime(blog.updatedAt)} . ${AppHelperFunctions.calculateReadingTime(blog.blogContent)} min read",
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.greyColor.withValues(alpha: 0.8),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
 
-                if (blog.imageUrl != null && blog.imageUrl!.isNotEmpty)
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: CachedNetworkImage(
-                      imageUrl: blog.imageUrl!,
-                      width: double.infinity,
-                      fit: BoxFit.cover,
-
-                      placeholder: (context, url) {
-                        return Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: Container(
-                            height: 200.h,
-
-                            width: double.infinity,
-                            color: Colors.white,
-                          ),
-                        );
-                      },
-
-                      errorWidget: (context, url, error) => Container(
-                        height: 200.h,
+                  if (blog.imageUrl != null && blog.imageUrl!.isNotEmpty)
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: CachedNetworkImage(
+                        imageUrl: blog.imageUrl!,
                         width: double.infinity,
-                        color: Colors.grey[200],
-                        child: const Icon(
-                          Icons.broken_image,
-                          color: Colors.grey,
+                        fit: BoxFit.cover,
+
+                        placeholder: (context, url) {
+                          return Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Container(
+                              height: 200.h,
+
+                              width: double.infinity,
+                              color: Colors.white,
+                            ),
+                          );
+                        },
+
+                        errorWidget: (context, url, error) => Container(
+                          height: 200.h,
+                          width: double.infinity,
+                          color: Colors.grey[200],
+                          child: const Icon(
+                            Icons.broken_image,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
-                SizedBox(height: 20.h),
-                Text(
-                  blog.blogContent,
-                  style: TextStyle(fontSize: 16.sp, height: 2),
-                ),
-              ],
+                  SizedBox(height: 20.h),
+                  Text(
+                    blog.blogContent,
+                    style: TextStyle(fontSize: 16.sp, height: 2),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

@@ -2,6 +2,7 @@ import 'package:clean_arch_blog_app/core/common/widgets/loader.dart';
 import 'package:clean_arch_blog_app/core/constants/app_sizer.dart';
 import 'package:clean_arch_blog_app/core/theme/app_colors.dart';
 import 'package:clean_arch_blog_app/core/widgets/custom_app_bar.dart';
+import 'package:clean_arch_blog_app/features/auth/presentation/controllers/sign_out_controller.dart';
 import 'package:clean_arch_blog_app/features/blog/presentation/controllers/blog_page_controller.dart';
 import 'package:clean_arch_blog_app/features/blog/presentation/widgets/blog_card.dart';
 import 'package:clean_arch_blog_app/routes/app_routes.dart';
@@ -17,6 +18,7 @@ class BlogPage extends StatefulWidget {
 
 class _BlogPageState extends State<BlogPage> {
   final BlogPageController controller = Get.find<BlogPageController>();
+  final SignOutController signOutController = Get.find<SignOutController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +32,19 @@ class _BlogPageState extends State<BlogPage> {
               Get.toNamed(AppRoutes.addNewBlogPage);
             },
             icon: Icon(Icons.add, size: 30.r),
+          ),
+          SizedBox(width: 3.w),
+          Obx(
+            () => Visibility(
+              visible: signOutController.isLoading.value == false,
+              replacement: CircularProgressIndicator(),
+              child: IconButton(
+                onPressed: () {
+                  signOutController.signOut();
+                },
+                icon: Icon(Icons.logout),
+              ),
+            ),
           ),
         ],
       ),

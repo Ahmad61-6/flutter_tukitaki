@@ -3,6 +3,7 @@ import 'package:clean_arch_blog_app/features/auth/data/repositories/auth_reposit
 import 'package:clean_arch_blog_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/usecases/get_auth_state.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/usecases/get_current_user.dart';
+import 'package:clean_arch_blog_app/features/auth/domain/usecases/sign_out.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/usecases/user_login.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/usecases/user_sing_up.dart';
 import 'package:clean_arch_blog_app/features/blog/data/data_source/blog_remote_data_sources.dart';
@@ -35,4 +36,5 @@ Future<void> initDependencies() async {
   Get.lazyPut(() => GetAuthState(Get.find()));
   Get.lazyPut(() => UploadBlog(Get.find()));
   Get.lazyPut(() => GetAllBlogs(Get.find()));
+  Get.lazyPut(() => UserSignOut(Get.find()));
 }
