@@ -1,3 +1,4 @@
+import 'package:clean_arch_blog_app/core/utils/device/device_utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +25,11 @@ class LoginScreenController extends GetxController {
     _obscureText.value = true;
   }
 
-  Future<bool> login(String email, String password) async {
+  Future<bool> login(
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
     isLoading.value = true;
     final params = LoginParams(email: email, password: password);
     final result = await _userLogin.call(params);
@@ -32,6 +37,7 @@ class LoginScreenController extends GetxController {
 
     return result.fold(
       (failure) {
+        DeviceUtility.hideKeyboard(context);
         AppHelperFunctions.showSnackBar("Login failed", failure.message, true);
         debugPrint("xxxxxxx ${failure.message} xxxxxxx");
         return false;

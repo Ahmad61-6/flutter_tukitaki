@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:clean_arch_blog_app/core/error/exceptions.dart';
 import 'package:clean_arch_blog_app/core/error/failure.dart';
+import 'package:clean_arch_blog_app/core/network/connection_checker.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/entities/user.dart';
 import 'package:clean_arch_blog_app/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,9 @@ import '../data_sources/auth_remote_data_source.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource _authRemoteDataSource;
+  final ConnectionChecker _connectionChecker;
 
-  const AuthRepositoryImpl(this._authRemoteDataSource);
+  const AuthRepositoryImpl(this._authRemoteDataSource, this._connectionChecker);
 
   @override
   Future<Either<Failure, UserEntity>> loginWithEmailPassword({
@@ -20,6 +22,9 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
+      if (!await (_connectionChecker.isConnected)) {
+        return left(Failure('No internet connection'));
+      }
       final user = await _authRemoteDataSource.loginWithEmailPassword(
         email: email,
         password: password,
@@ -38,6 +43,9 @@ class AuthRepositoryImpl implements AuthRepository {
     File? image,
   }) async {
     try {
+      if (!await (_connectionChecker.isConnected)) {
+        return left(Failure('No internet connection'));
+      }
       final user = await _authRemoteDataSource.signUpWithEmailPassword(
         name: name,
         email: email,
@@ -55,6 +63,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, void>> signOut() async {
+    if (!await (_connectionChecker.isConnected)) {
+      return left(Failure('No internet connection'));
+    }
     try {
       await _authRemoteDataSource.signOut();
       return right(null);
@@ -66,6 +77,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<Either<Failure, UserEntity>> getCurrentUserData() async {
     try {
+      if (!await (_connectionChecker.isConnected)) {}
       final user = await _authRemoteDataSource.getCurrentUserData();
       return right(user);
     } on ServerException catch (e) {

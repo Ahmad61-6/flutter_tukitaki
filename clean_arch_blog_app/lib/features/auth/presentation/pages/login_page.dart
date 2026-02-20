@@ -76,6 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                               final result = await loginController.login(
                                 emailTEController.text.trim(),
                                 passwordTEController.text.trim(),
+                                context,
                               );
                               if (result) {
                                 _clearForm();
