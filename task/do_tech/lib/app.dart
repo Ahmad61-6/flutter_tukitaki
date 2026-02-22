@@ -1,4 +1,7 @@
+import 'package:do_tech/core/bindings/controller_binder.dart';
 import 'package:do_tech/core/constants/app_sizer.dart';
+import 'package:do_tech/core/theme/app_theme.dart';
+import 'package:do_tech/routes/app_routes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart' as foundation;
@@ -16,7 +19,20 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType){
-      return GetMaterialApp();
+      return GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        getPages: AppRoutes.routes,
+        initialRoute: AppRoutes.init,
+        initialBinding: ControllerBinder(),
+        theme: AppTheme.lightTheme,
+        defaultTransition: PlatformUtils.isIOS
+            ? Transition.cupertino
+            : Transition.rightToLeft,
+        builder: (context, child) => PlatformUtils.isIOS
+            ? CupertinoTheme(data: CupertinoThemeData(), child: child!)
+            : child!,
+        transitionDuration: const Duration(milliseconds: 100),
+      );
     });
   }
 }

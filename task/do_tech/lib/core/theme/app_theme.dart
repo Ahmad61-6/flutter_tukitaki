@@ -18,21 +18,69 @@ class AppTheme {
         primary: AppColors.primaryNew,
         error: AppColors.itemGradientColor[0],
       ),
+      textTheme:  TextTheme(
+        bodyLarge: TextStyle(color: AppColors.colorWhite),
+        bodyMedium: TextStyle(color:AppColors.colorWhite),
+      ),
 
       inputDecorationTheme: _inputDecorationTheme,
+      checkboxTheme: _checkboxTheme,
+      elevatedButtonTheme: _elevatedButtonTheme,
+    );
+  }
+  static ElevatedButtonThemeData get _elevatedButtonTheme {
+    return ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppColors.colorWhite,
+
+        foregroundColor: AppColors.colorBlack,
+
+        padding: EdgeInsets.symmetric(
+          horizontal: 16.w,
+          vertical: 16.h,
+        ),
+
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(4),
+        ),
+
+        textStyle: TextStyle(
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w800,
+          fontFamily: 'OpenSans',
+        ),
+
+        elevation: 0,
+      ),
+    );
+  }
+  static CheckboxThemeData get _checkboxTheme {
+    return CheckboxThemeData(
+      fillColor: const WidgetStatePropertyAll(AppColors.cardBg),
+
+      checkColor: const WidgetStatePropertyAll(AppColors.colorWhite),
+
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(6),
+      ),
+
+
+
     );
   }
 
   static InputDecorationTheme get _inputDecorationTheme {
     return InputDecorationTheme(
+
       filled: true,
-      fillColor: AppColors.colorWhite,
-      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      fillColor: AppColors.cardBg,
+      contentPadding:  EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.h),
+
 
       hintStyle:  TextStyle(
         color: AppColors.hintTextColor,
         fontSize: 14.sp,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w600,
       ),
       labelStyle: TextStyle(
         color: AppColors.textColor,
@@ -42,32 +90,33 @@ class AppTheme {
       errorStyle: TextStyle(
         color: AppColors.itemGradientColor[0],
         fontSize: 12.sp,
-        fontWeight: FontWeight.w400,
+        fontWeight: FontWeight.w600,
       ),
 
+
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: AppColors.levelLight),
+        borderRadius: BorderRadius.circular(12),
+        borderSide:  BorderSide(color: AppColors.cardBg2,width: 1.w),
       ),
 
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: const BorderSide(color: AppColors.levelLight),
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: AppColors.cardBg2,width: 1.w),
       ),
 
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide:  BorderSide(color: AppColors.primaryNew, width: 1.5.w),
+        borderRadius: BorderRadius.circular(12),
+        borderSide:  BorderSide(color: AppColors.cardBg2, width: 1.w),
       ),
 
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: AppColors.itemGradientColor[0], width: 1.5.w),
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: AppColors.itemGradientColor[0], width: 1.w),
       ),
 
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8),
-        borderSide: BorderSide(color: AppColors.itemGradientColor[0], width: 2.0.w),
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: AppColors.itemGradientColor[0], width: 1.w),
       ),
     );
   }
