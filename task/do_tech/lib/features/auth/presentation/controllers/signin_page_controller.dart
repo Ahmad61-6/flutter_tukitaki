@@ -55,6 +55,7 @@ class SignInPageController extends GetxController {
       } else {
         _errorMessage = response['msg'];
         DeviceUtility.hideKeyboard(context);
+        isLoading.value = false;
         AppHelperFunctions.showSnackBar("Login failed", _errorMessage ?? "Unknown Error", true);
         return false;
       }

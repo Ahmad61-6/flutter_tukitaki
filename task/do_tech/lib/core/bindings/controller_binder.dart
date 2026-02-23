@@ -1,4 +1,5 @@
 import 'package:do_tech/features/auth/presentation/controllers/signup_page_controller.dart';
+import 'package:do_tech/features/home/presentation/controllers/home_controller.dart';
 import 'package:do_tech/features/shared/presentation/controllers/bottom_nav_controller.dart';
 import 'package:get/get.dart';
 

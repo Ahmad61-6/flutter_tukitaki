@@ -26,10 +26,13 @@ class MainBottomNavBarPage extends StatelessWidget {
       builder: (controller) {
         return Scaffold(
           extendBody: true,
-          body: _pages[controller.currentIndex],
+          body: IndexedStack(
+          index: controller.currentIndex,
+          children: _pages,
+        ),
           floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
           floatingActionButton: _buildFloatingQRButton(),
-          bottomNavigationBar: _buildBottomAppBar(controller),
+          bottomNavigationBar: bottomAppBar(controller),
         );
       },
     );
@@ -66,17 +69,10 @@ class MainBottomNavBarPage extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomAppBar(MainNavController controller) {
+  Widget bottomAppBar(MainNavController controller) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24.w)),
-        boxShadow: const [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 10,
-            offset: Offset(0, -2),
-          ),
-        ],
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24.w)),
@@ -89,16 +85,16 @@ class MainBottomNavBarPage extends StatelessWidget {
           child: SizedBox(
             height: 80.h,
             child: Row(
-              mainAxisAlignment: .spaceBetween,
-              crossAxisAlignment:.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildNavItem(
+                navItem(
                   iconPath: AssetsPath.bottomNavMarketPlaceIcon,
                   label: 'Marketplace',
                   index: 0,
                   controller: controller,
                 ),
-                _buildNavItem(
+                navItem(
                   iconPath: AssetsPath.bottomNavServicesIcon,
                   label: 'Services',
                   index: 1,
@@ -107,13 +103,13 @@ class MainBottomNavBarPage extends StatelessWidget {
 
                 SizedBox(width: 75.w),
 
-                _buildNavItem(
+                navItem(
                   iconPath: AssetsPath.bottomNavRoadAssisIcon,
                   label: 'Roadside\nassistance',
                   index: 2,
                   controller: controller,
                 ),
-                _buildNavItem(
+                navItem(
                   iconPath: AssetsPath.bottomNavProfileIcon,
                   label: 'Profile',
                   index: 3,
@@ -127,7 +123,7 @@ class MainBottomNavBarPage extends StatelessWidget {
     );
   }
 
-  Widget _buildNavItem({
+  Widget navItem({
     required String iconPath,
     required String label,
     required int index,

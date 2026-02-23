@@ -41,9 +41,9 @@ class _SignInPageState extends State<SignInPage> {
                 children: [
                   SizedBox(height: 300.h),
                   AuthField(
-                    hintText: 'Username or Email',
+                    hintText: 'Username',
                     controller: emailTEController,
-                    validator: AppValidator.validateEmail,
+                    validator: AppValidator.validateName,
                     obscureText: false,
                     prefixIcon: Image.asset(
                       AssetsPath.personIcon,
@@ -76,10 +76,10 @@ class _SignInPageState extends State<SignInPage> {
                       SizedBox(
                         height: 30.h,
                         width: 30.w,
-                        child: Checkbox(
+                        child:Obx(()=> Checkbox(
                           value: signInPageController.checkBoxValue.value,
                           onChanged: signInPageController.checkBoxVisibility,
-                        ),
+                        ),)
                       ),
                       Text(
                         'Remember username',
