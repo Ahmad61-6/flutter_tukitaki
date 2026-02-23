@@ -7,6 +7,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/utils/app_assets/assets_path.dart';
 import '../../../../core/utils/device/device_utils.dart';
 import '../../../../core/utils/validators/app_validators.dart';
+import '../../../../routes/app_routes.dart';
 import '../controllers/signup_page_controller.dart';
 import '../widgets/auth_field.dart';
 
@@ -125,14 +126,16 @@ class _SignupPageState extends State<SignupPage> {
                         child: ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              final result = await signupPageController.signUp(
+                              final bool result = await signupPageController.signUp(
                                 nameTEController.text.trim(),
                                 emailTEController.text.trim(),
                                 passwordTEController.text.trim(),
+                                context,
                               );
+
                               if (result) {
                                 _clearForm();
-                                // Get.offAllNamed(AppRoutes.blogPage);
+                                Get.offAllNamed(AppRoutes.mainBottomNavBarPage);
                               }
                             }
                           },

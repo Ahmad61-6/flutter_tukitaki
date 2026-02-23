@@ -36,12 +36,12 @@ class _SignInPageState extends State<SignInPage> {
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,
-              child:Obx(()=> Column(
+              child: Column(
                 mainAxisAlignment: .center,
                 children: [
                   SizedBox(height: 300.h),
                   AuthField(
-                    hintText: 'Email',
+                    hintText: 'Username or Email',
                     controller: emailTEController,
                     validator: AppValidator.validateEmail,
                     obscureText: false,
@@ -54,22 +54,22 @@ class _SignInPageState extends State<SignInPage> {
                   ),
                   SizedBox(height: 15.h),
 
-                  AuthField(
-                    hintText: 'Password',
-                    controller: passwordTEController,
-                    validator: AppValidator.validatePassword,
-                    obscureText: signInPageController.obscureText.value,
-                    suffixIcon: signInPageController.obscureText.value
-                        ? Icon(Icons.visibility)
-                        : Icon(Icons.visibility_off),
-                    onTap:  signInPageController.passwordVisibility,
-                    prefixIcon: Image.asset(
-                      AssetsPath.passwordLeadingIcon,
-                      color: AppColors.colorWhite,
-                      width: 20.w,
-                      height: 20.h,
-                    ),
-                  ),
+                 Obx(()=>  AuthField(
+                   hintText: 'Password',
+                   controller: passwordTEController,
+                   validator: AppValidator.validatePassword,
+                   obscureText: signInPageController.obscureText.value,
+                   suffixIcon: signInPageController.obscureText.value
+                       ? Icon(Icons.visibility)
+                       : Icon(Icons.visibility_off),
+                   onTap:  signInPageController.passwordVisibility,
+                   prefixIcon: Image.asset(
+                     AssetsPath.passwordLeadingIcon,
+                     color: AppColors.colorWhite,
+                     width: 20.w,
+                     height: 20.h,
+                   ),
+                 ),),
                   SizedBox(height: 10.h),
                   Row(
                     children: [
@@ -101,20 +101,20 @@ class _SignInPageState extends State<SignInPage> {
                   SizedBox(height: 45.h),
                   SizedBox(
                     width: double.infinity,
-                    child: Visibility(
+                    child: Obx(()=>Visibility(
                       visible: signInPageController.isLoading.value == false,
                       replacement: Loader(),
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            final result = await signInPageController.login(
+                            final bool isSuccess = await signInPageController.login(
                               emailTEController.text.trim(),
                               passwordTEController.text.trim(),
                               context,
                             );
-                            if (result) {
+                            if (isSuccess) {
                               _clearForm();
-                              // Get.offAllNamed(AppRoutes.blogPage);
+                              Get.offAllNamed(AppRoutes.mainBottomNavBarPage);
                             }
                           }
                         },
@@ -123,7 +123,7 @@ class _SignInPageState extends State<SignInPage> {
                           'Sign in',
                         ),
                       ),
-                    ),
+                    ),),
                   ),
                   SizedBox(height: 35.h),
                   GestureDetector(
@@ -151,7 +151,7 @@ class _SignInPageState extends State<SignInPage> {
                     ),
                   ),
                 ],
-              ),)
+              ),
             ),
           ),
         ),
