@@ -29,7 +29,7 @@ class SplashScreenController extends GetxController {
 
         _appUserController.setUser(userEntity);
 
-        // Get.offAllNamed(AppRoutes.loginScreen);
+        Get.offAllNamed(AppRoutes.mainBottomNav);
       },
     );
   }
