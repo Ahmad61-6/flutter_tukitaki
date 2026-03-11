@@ -12,11 +12,16 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Get.find<SplashScreenController>();
+  }
+
 
 
   @override
   Widget build(BuildContext context) {
-    Get.find<SplashScreenController>();
     final colorScheme = Get.theme.colorScheme;
 
     return Scaffold(
@@ -26,8 +31,8 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              height: 80.h,
-              width: 80.w,
+              height: 80,
+              width: 80,
               decoration: BoxDecoration(
                 color: colorScheme.secondary.withValues(alpha: 0.1),
                 shape: BoxShape.circle,

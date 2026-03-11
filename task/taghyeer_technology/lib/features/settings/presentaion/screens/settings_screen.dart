@@ -15,14 +15,15 @@ class SettingsScreen extends StatelessWidget {
     final themeController = Get.find<ThemeController>();
     final settingsController = Get.find<SettingsController>();
 
-    final colorScheme = Get.theme.colorScheme;
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Settings'),
         centerTitle: true,
       ),
       body: Obx(() {
+        final colorScheme = Theme.of(context).colorScheme;
+        final textTheme = Theme.of(context).textTheme;
+
         final user = userController.currentUser.value;
 
         return SingleChildScrollView(
@@ -71,7 +72,7 @@ class SettingsScreen extends StatelessWidget {
                               user.email,
                               style: TextStyle(
                                 fontSize: 12.sp,
-                                color: Get.textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
+                                color: textTheme.bodyMedium?.color?.withValues(alpha: 0.6),
                               ),
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -93,7 +94,7 @@ class SettingsScreen extends StatelessWidget {
                 child: SwitchListTile(
                   contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
                   secondary: Icon(
-                    themeController.isDarkMode.value ? Icons.dark_mode : Icons.light_mode,
+                    themeController.isDarkMode.value ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
                     color: colorScheme.primary,
                   ),
                   title: Text(
@@ -102,7 +103,7 @@ class SettingsScreen extends StatelessWidget {
                   ),
                   value: themeController.isDarkMode.value,
                   onChanged: (value) => themeController.toggleTheme(),
-                  activeColor: colorScheme.secondary,
+                  activeThumbColor: colorScheme.secondary,
                 ),
               ),
 
@@ -143,7 +144,10 @@ class SettingsScreen extends StatelessWidget {
             child: const Text('Cancel'),
           ),
           ElevatedButton(
-            style: ElevatedButton.styleFrom(backgroundColor: Get.theme.colorScheme.error, foregroundColor: Get.theme.colorScheme.surface),
+            style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.error,
+                foregroundColor: Theme.of(context).colorScheme.surface
+            ),
             onPressed: () {
               Get.back();
               controller.logOut();

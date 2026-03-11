@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
     return Sizer(
       builder: (context, orientation, deviceType) {
-        return GetMaterialApp(
+        return Obx(()=> GetMaterialApp(
           title: 'My App',
           theme: AppTheme.lightTheme,
           darkTheme: AppTheme.darkTheme,
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
           )
               : child!,
           transitionDuration: const Duration(milliseconds: 100),
-        );
+        ));
       },
     );
   }
