@@ -24,12 +24,17 @@ A professional Flutter application built with a focus on **Clean Architecture**,
 |:---:|:---:|:---:|:---:|
 | <img src="app_screen_shots/light_settings.jpeg" width="200"> | <img src="app_screen_shots/dark_settings.jpeg" width="200"> | <img src="app_screen_shots/light_logout_1.jpeg" width="200"> | <img src="app_screen_shots/dark_log_out_2.jpeg" width="200"> |
 
+### Connectivity
+| No Internet Connection |
+|:---:|
+| <img src="app_screen_shots/no_internet_con.jpeg" width="200"> |
+
 ## 🚀 Key Features
 - **User Authentication**: Secure login system with persistent session management using `shared_preferences`.
 - **Product Management**: Browse a catalog of products with detailed views, optimized for performance.
 - **Social Interaction**: A dedicated social feed for viewing and interacting with posts.
-- **Dynamic Theming**: seamless transition between Light and Dark modes across the entire application.
-- **Network Awareness**: Integrated real-time connectivity monitoring via `connectivity_plus`.
+- **Dynamic Theming**: Seamless transition between Light and Dark modes across the entire application.
+- **Network Awareness**: Integrated real-time connectivity monitoring via `connectivity_plus` with custom error screens.
 - **Error Handling**: Robust error management using the `fpdart` library for functional programming patterns (Either/Option).
 
 ## 🏗️ Project Architecture
