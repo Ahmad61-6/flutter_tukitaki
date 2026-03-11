@@ -22,7 +22,7 @@ A professional Flutter application built with a focus on **Clean Architecture**,
 ### Settings & Logout
 | Settings (Light) | Settings (Dark) | Logout (Light) | Logout (Dark) |
 |:---:|:---:|:---:|:---:|
-| <img src="app_screen_shots/light_settings.jpeg" width="200"> | <img src="app_screen_shots/dark_settings.jpeg" width="200"> | <img src="app_screen_shots/light_logout_1.jpeg" width="200"> | <img src="app_screen_shots/dark_log_out_2.jpeg" width="200"> |
+| <img src="app_screen_shots/settings_light.jpeg" width="200"> | <img src="app_screen_shots/dark_settings.jpeg" width="200"> | <img src="app_screen_shots/light_logout_1.jpeg" width="200"> | <img src="app_screen_shots/dark_log_out_2.jpeg" width="200"> |
 
 ### Connectivity
 | No Internet Connection |

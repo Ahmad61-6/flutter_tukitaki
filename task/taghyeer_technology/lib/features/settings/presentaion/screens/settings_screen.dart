@@ -94,11 +94,11 @@ class SettingsScreen extends StatelessWidget {
                 child: SwitchListTile(
                   contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
                   secondary: Icon(
-                    themeController.isDarkMode.value ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+                    themeController.isDarkMode.value ? Icons.dark_mode_outlined : Icons.light_mode_outlined ,
                     color: colorScheme.primary,
                   ),
                   title: Text(
-                    'Dark Mode',
+        themeController.isDarkMode.value ? 'Dark Mode' : 'Light Mode',
                     style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w500),
                   ),
                   value: themeController.isDarkMode.value,
